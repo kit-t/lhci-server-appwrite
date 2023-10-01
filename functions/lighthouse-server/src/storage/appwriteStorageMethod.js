@@ -188,7 +188,11 @@ export class AppwriteStorageMethod extends StorageMethod {
     const { documents } = await databases.listDocuments(
       this.databaseId,
       'builds',
-      [Query.equal('projectId', projectId), Query.select(['branch']), FETCH_ALL]
+      [
+        Query.equal('projectId', [projectId]),
+        Query.select(['branch']),
+        FETCH_ALL,
+      ]
     );
     const uniqueBranches = new Set();
     return documents.reduce((arr, ele) => {
@@ -213,7 +217,7 @@ export class AppwriteStorageMethod extends StorageMethod {
         : (
             await databases.listDocuments(this.databaseId, 'builds', [
               Query.equal('projectId', [projectId]),
-              Query.startsWith('hash', buildId),
+              Query.startsWith('$id', buildId.replace(/(.{4})$/, '-$1')),
               Query.limit(1),
             ])
           ).documents[0];
@@ -237,16 +241,15 @@ export class AppwriteStorageMethod extends StorageMethod {
       'builds',
       buildId
     );
-    if (!project || !build || (build && build.projectId !== projectId))
-      return undefined;
+    if (!project || !build || build.projectId !== projectId) return undefined;
 
     if (build.ancestorHash) {
       const {
         documents: [ancestorsByHash],
       } = await databases.listDocuments(this.databaseId, 'builds', [
-        Query.equal('projectId', projectId),
-        Query.equal('branch', project.baseBranch),
-        Query.equal('hash', build.ancestorHash),
+        Query.equal('projectId', [projectId]),
+        Query.equal('branch', [project.baseBranch]),
+        Query.equal('hash', [build.ancestorHash]),
         Query.limit(1),
       ]);
 
@@ -254,9 +257,9 @@ export class AppwriteStorageMethod extends StorageMethod {
     }
 
     const where = [
-      Query.equal('projectId', projectId),
-      Query.equal('branch', project.baseBranch),
-      Query.notEqual('$id', build.$id),
+      Query.equal('projectId', [projectId]),
+      Query.equal('branch', [project.baseBranch]),
+      Query.notEqual('$id', [build.$id]),
     ];
 
     const {
@@ -274,7 +277,7 @@ export class AppwriteStorageMethod extends StorageMethod {
 
     const {
       documents: [nearestBuildAfter],
-    } = databases.listDocuments(this.databaseId, 'builds', [
+    } = await databases.listDocuments(this.databaseId, 'builds', [
       ...where,
       Query.greaterThanEqual('runAt', build.runAt),
       Query.orderAsc('runAt'),
@@ -285,9 +288,9 @@ export class AppwriteStorageMethod extends StorageMethod {
     const getDateDistance = (date) =>
       Math.abs(new Date(date).getTime() - new Date(build.runAt).getTime());
 
-    const [nearestBuild] = [nearestBuildBefore, nearestBuildAfter].sort(
-      (a, b) => getDateDistance(a.runAt) - getDateDistance(b.runAt)
-    );
+    const [nearestBuild] = [nearestBuildBefore, nearestBuildAfter]
+      .filter(Boolean)
+      .sort((a, b) => getDateDistance(a.runAt) - getDateDistance(b.runAt));
 
     return transformDocument(nearestBuild);
   }
@@ -376,12 +379,12 @@ export class AppwriteStorageMethod extends StorageMethod {
   async deleteBuild(projectId, buildId) {
     const [{ documents: runs }, { documents: statistics }] = await Promise.all([
       databases.listDocuments(this.databaseId, 'runs', [
-        Query.equal('buildId', ['buildId']),
+        Query.equal('buildId', [buildId]),
         Query.select(['$id']),
         FETCH_ALL,
       ]),
       databases.listDocuments(this.databaseId, 'statistics', [
-        Query.equal('buildId', ['buildId']),
+        Query.equal('buildId', [buildId]),
         Query.select(['$id']),
         FETCH_ALL,
       ]),
@@ -425,8 +428,8 @@ export class AppwriteStorageMethod extends StorageMethod {
       this.databaseId,
       'runs',
       [
-        Query.equal('projectId', projectId),
-        ...(buildId ? [Query.equal('buildId', buildId)] : []),
+        Query.equal('projectId', [projectId]),
+        ...(buildId ? [Query.equal('buildId', [buildId])] : []),
         Query.select(['url']),
         FETCH_ALL,
       ]

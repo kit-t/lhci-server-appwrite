@@ -32,3 +32,7 @@ npm install -g @lhci/cli@0.12.x
 ## Demo
 
 View demo [here](http://65183896735e382566da.appwrite.global/)
+
+![project page](./docs/images/app-project-page.png)
+
+![results comparison page](./docs/images/compare-results.png)
