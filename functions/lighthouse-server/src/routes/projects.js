@@ -152,7 +152,8 @@ projects.put(
   '/:projectId/builds/:buildId/lifecycle',
   validateBuildToken,
   async (c) => {
-    if ((await c.req.json()) !== 'sealed') throw new Error('Invalid lifecycle');
+    // temporary disable this check because appwrite server return 502 for request with content-type application/json & body "sealed"
+    // if ((await c.req.json()) !== 'sealed') throw new Error('Invalid lifecycle');
     await c.env.storageMethod.sealBuild(
       c.req.param('projectId'),
       c.req.param('buildId')

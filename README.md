@@ -27,7 +27,7 @@ npm install -g @lhci/cli@0.12.x
 
 - Create project by running `lhci wizard` (refer [here](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md#project-creation) for more details, remember to use the function domain obtained as URL of your LHCI server)
 
-- Run `lhci autorun` to collect and save lighthouse results for your project on the server you just deploy.
+- Run `lhci autorun` to collect and save lighthouse results for your project on the server you just deployed. Unfortunately, `lhci autorun` will fail with `502 Bad Gateway` when it sends PUT request to seal build at path `/v1/projects/:projectId/builds/:buildId/lifecycle` with `Content-Type: application/json` in the header and `"sealed"` in the body. You can manually make a request without `"sealed"` in the body to seal build and generate statistics for the data you just uploaded.
 
 ## Demo
 

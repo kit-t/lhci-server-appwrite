@@ -208,13 +208,13 @@ export class AppwriteStorageMethod extends StorageMethod {
   // eslint-disable-next-line no-unused-vars
   async findBuildById(projectId, buildId) {
     const project =
-      buildId.length === '36'
+      buildId.length === 36
         ? await databases.getDocument(this.databaseId, 'builds', buildId)
         : (
             await databases.listDocuments(this.databaseId, 'builds', [
-              (Query.equal('projectId', [projectId]),
+              Query.equal('projectId', [projectId]),
               Query.startsWith('hash', buildId),
-              Query.limit(1)),
+              Query.limit(1),
             ])
           ).documents[0];
     return transformDocument(project);

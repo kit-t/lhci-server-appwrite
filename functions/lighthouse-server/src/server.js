@@ -63,7 +63,8 @@ app.onError((e, c) => {
     return e.getResponse();
   }
   c.env.error(`{ message: ${e.message}, details: ${JSON.stringify(e)} }`);
-  return c.json({ type: e.type, message: e.message }, e.code || 422);
+  const statusCode = e.code >= 400 && e.code <= 599 ? e.code : 422;
+  return c.json({ type: e.type, message: e.message }, statusCode);
 });
 
 export default app;
