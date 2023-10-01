@@ -1,9 +1,17 @@
-import { randomUUID } from 'node:crypto';
+import crypto from 'node:crypto';
 import { Client, Databases, Query } from 'node-appwrite';
 
 import StorageMethod from '@lhci/server/src/api/storage/storage-method.js';
 import adminTokenUtils from '@lhci/server/src/api/storage/auth.js';
 
+/**
+ * set global.crypto to fix error "crypto is not defined"
+ * possibly due to some underlying package is using crypto without import/require
+ */
+const global = (0, eval)('this');
+global.crypto = crypto;
+
+const { randomUUID } = crypto;
 const { generateAdminToken, hashAdminToken } = adminTokenUtils;
 
 const FETCH_ALL = Query.limit(Number.MAX_SAFE_INTEGER);
