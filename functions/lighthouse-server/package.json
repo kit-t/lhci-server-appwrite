@@ -1,0 +1,23 @@
+{
+  "name": "ligthouse-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/main.js",
+    "dev": "nodemon ./src/dev.js",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@lhci/server": "^0.12.0",
+    "hono": "^3.7.2",
+    "node-appwrite": "^9.0.0"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^1.2.0",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0"
+  }
+}

@@ -1,0 +1,444 @@
+{
+    "projectId": "lighthouse-fxn-lightning-hack-sep-23",
+    "projectName": "lighthouse-fxn-lightning-hack-sep-23",
+    "functions": [
+        {
+            "$id": "lighthouse-server",
+            "name": "lighthouse-server",
+            "runtime": "node-18.0",
+            "execute": [
+                "any"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 60,
+            "enabled": true,
+            "logging": true,
+            "entrypoint": "src/main.js",
+            "commands": "npm ci",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "path": "functions/lighthouse-server"
+        }
+    ],
+    "databases": [
+        {
+            "$id": "lighthouse",
+            "name": "lighthouse",
+            "$createdAt": "2023-09-30T01:27:16.266+00:00",
+            "$updatedAt": "2023-09-30T01:27:16.266+00:00",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "projects",
+            "$permissions": [],
+            "databaseId": "lighthouse",
+            "name": "projects",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "baseBranch",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 80,
+                    "default": null
+                },
+                {
+                    "key": "name",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "externalUrl",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "slug",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "token",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "adminToken",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 64,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "token_1",
+                    "type": "unique",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "token"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "slug_1",
+                    "type": "unique",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "slug"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "builds",
+            "$permissions": [],
+            "databaseId": "lighthouse",
+            "name": "builds",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "lifecycle",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "commitMessage",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 80,
+                    "default": null
+                },
+                {
+                    "key": "avatarUrl",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "projectId",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "runAt",
+                    "type": "datetime",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "ancestorHash",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "committedAt",
+                    "type": "datetime",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "externalBuildUrl",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "author",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "hash",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "ancestorCommittedAt",
+                    "type": "datetime",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "branch",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "projectId_1_hash_1_branch_1",
+                    "type": "unique",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "projectId",
+                        "hash",
+                        "branch"
+                    ],
+                    "orders": [
+                        "ASC",
+                        "ASC",
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "runs",
+            "$permissions": [],
+            "databaseId": "lighthouse",
+            "name": "runs",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "url",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "buildId",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "projectId",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "lhr",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 16777216,
+                    "default": null
+                },
+                {
+                    "key": "representative",
+                    "type": "boolean",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "projectId_1_buildId_1",
+                    "type": "key",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "projectId",
+                        "buildId"
+                    ],
+                    "orders": [
+                        "ASC",
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "statistics",
+            "$permissions": [],
+            "databaseId": "lighthouse",
+            "name": "statistics",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "buildId",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "projectId",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 36,
+                    "default": null
+                },
+                {
+                    "key": "url",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 256,
+                    "default": null
+                },
+                {
+                    "key": "name",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 100,
+                    "default": null
+                },
+                {
+                    "key": "version",
+                    "type": "double",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                },
+                {
+                    "key": "value",
+                    "type": "double",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "min": -1.7976931348623157e+308,
+                    "max": 1.7976931348623157e+308,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "projectId_1_buildId_1",
+                    "type": "key",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "projectId",
+                        "buildId"
+                    ],
+                    "orders": [
+                        "ASC",
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ]
+}
